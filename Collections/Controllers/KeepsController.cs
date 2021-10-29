@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Collections.Controllers
 {
   [ApiController]
-  [Route("[controller]")]
+  [Route("api/[controller]")]
   public class KeepsController : ControllerBase
   {
     private readonly KeepsService _ks;
@@ -31,20 +31,20 @@ namespace Collections.Controllers
         return BadRequest(e.Message);
       }
     }
-    [HttpGet]
-    public ActionResult<Keep> Get(int KeepId)
+    [HttpGet("{keepId}")]
+    public ActionResult<Keep> Get(int keepId)
     {
       try
       {
-        return Ok(_ks.Get(KeepId));
+        return Ok(_ks.Get(keepId));
       }
       catch (System.Exception e)
       {
         return BadRequest(e.Message);
       }
     }
-    [HttpPost]
     [Authorize]
+    [HttpPost]
     public async Task<ActionResult<Keep>> Create([FromBody] Keep keepData)
     {
       try

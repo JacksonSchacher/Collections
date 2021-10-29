@@ -1,5 +1,3 @@
-using System;
-
 namespace Collections.Models
 {
   public class Keep
@@ -13,6 +11,6 @@ namespace Collections.Models
     public int Shares { get; set; }
     public int Keeps { get; set; }
     public Profile Creator { get; set; }
-    public Array Tags { get; set; }
+    // public Array Tags { get; set; }
   }
 }
