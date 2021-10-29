@@ -34,10 +34,10 @@ namespace Collections.Services
       return _vr.Create(vaultData);
     }
 
-    internal Vault Edit(Vault vaultData)
+    internal Vault Edit(Vault vaultData, string userId)
     {
       Vault foundVault = Get(vaultData.Id);
-      if (foundVault.CreatorId != vaultData.CreatorId)
+      if (foundVault.CreatorId != userId)
       {
         throw new Exception("Not Allowed To Edit");
       }

@@ -24,5 +24,23 @@ CREATE TABLE IF NOT EXISTS keeps(
 INSERT INTO keeps(name, description, img)
 VALUES("Test Keep Name", "Test Keep Description", "https://placehoder.com");
 
-SELECT * FROM keeps WHERE id = 5;
+SELECT * FROM vaults WHERE id = 5;
+
+CREATE TABLE IF NOT EXISTS vaults(
+  id int NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'vault Id',
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
+  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
+  creatorId VARCHAR(255) COMMENT 'Creator Id',
+  name varchar(255) NOT NULL COMMENT 'vault Name',
+  description TEXT COMMENT 'vault Description',
+  isPrivate TINYINT DEFAULT 0 COMMENT 'is vault private?',
+  FOREIGN KEY(creatorId) REFERENCES accounts(id) ON DELETE CASCADE
+) default charset utf8 COMMENT '';
+
+SELECT 
+      v.*,
+      p.*
+      FROM vaults v
+      JOIN accounts p ON p.id = v.creatorId
+      WHERE v.id = 5;
 

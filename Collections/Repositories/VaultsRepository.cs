@@ -24,8 +24,17 @@ namespace Collections.Repositories
 
     internal Vault Get(int vaultId)
     {
-      string sql = "SELECT * FROM vaults WHERE id = @vaultId;";
-      return _db.QueryFirstOrDefault<Vault>(sql, new {vaultId});
+      string sql = @"
+      SELECT 
+      v.*,
+      p.*
+      FROM vaults v
+      JOIN accounts p ON p.id = v.creatorId
+      WHERE v.id = @vaultId;";
+      return _db.Query<Vault, Profile, Vault>(sql, (v, p) => {
+        v.Creator = p;
+        return v;
+      }, new {vaultId}).FirstOrDefault();
     }
 
     internal Vault Create(Vault vaultData)
