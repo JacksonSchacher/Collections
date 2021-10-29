@@ -61,5 +61,37 @@ namespace Collections.Controllers
         return BadRequest(e.Message);
       }
     }
+    [Authorize]
+    [HttpPut("{vaultId}")]
+    public async Task<ActionResult<Vault>> Edit([FromBody] Vault vaultData, int vaultId)
+    {
+      try
+      {
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        vaultData.CreatorId = userInfo.Id;
+        vaultData.Id = vaultId;
+        Vault editedVault = _vs.Edit(vaultData);
+        return editedVault;
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+    [Authorize]
+    [HttpDelete("{vaultId}")]
+    public async Task<ActionResult<Vault>> Remove(int vaultId)
+    {
+      try
+      {
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        _vs.Remove(vaultId, userInfo.Id);
+        return Ok("Vault Removed");
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
   }
 }

@@ -33,5 +33,25 @@ namespace Collections.Services
     {
       return _vr.Create(vaultData);
     }
+
+    internal Vault Edit(Vault vaultData)
+    {
+      Vault foundVault = Get(vaultData.Id);
+      if (foundVault.CreatorId != vaultData.CreatorId)
+      {
+        throw new Exception("Not Allowed To Edit");
+      }
+      return _vr.Edit(vaultData);
+    }
+
+    internal void Remove(int vaultId, string userId)
+    {
+      Vault foundVault = Get(vaultId);
+      if (foundVault.CreatorId != userId)
+      {
+        throw new Exception("Not Authorized to Remove");
+      }
+      _vr.Remove(vaultId);
+    }
   }
 }

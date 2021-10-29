@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -37,6 +38,34 @@ namespace Collections.Repositories
       int id = _db.ExecuteScalar<int>(sql, vaultData);
       vaultData.Id = id;
       return vaultData;
+    }
+
+    internal Vault Edit(Vault vaultData)
+    {
+      string sql = @"
+      UPDATE vaults
+      SET
+      name = @Name,
+      description = @Description,
+      isPrivate = @IsPrivate
+      WHERE id = @Id LIMIT 1;
+      ";
+      var rowsAffected = _db.Execute(sql, vaultData);
+      if (rowsAffected == 0)
+      {
+        throw new Exception("Edit Vault Failed");
+      }
+      return vaultData;
+    }
+
+    internal void Remove(int vaultId)
+    {
+      string sql = "DELETE FROM vaults WHERE id = @vaultId LIMIT 1;";
+      var rowsAffected = _db.Execute(sql, new {vaultId});
+      if (rowsAffected == 0)
+      {
+        throw new Exception("Delete Failed");
+      }
     }
   }
 }
