@@ -33,7 +33,7 @@ namespace Collections.Controllers
       }
     }
     [HttpGet("{vaultId}")]
-    public ActionResult<List<Vault>> Get(int vaultId)
+    public ActionResult<Vault> Get(int vaultId)
     {
       try
       {

@@ -34,14 +34,14 @@ namespace Collections.Repositories
       return _db.Query<Vault, Profile, Vault>(sql, (v, p) => {
         v.Creator = p;
         return v;
-      }, new {vaultId}).FirstOrDefault();
+      }, new {vaultId}, splitOn:"id").FirstOrDefault();
     }
 
     internal Vault Create(Vault vaultData)
     {
       string sql = @"
-      INSERT INTO vaults(name, description, isPrivate)
-      VALUES(@Name, @Description, @IsPrivate);
+      INSERT INTO vaults(name, description, isPrivate, creatorId)
+      VALUES(@Name, @Description, @IsPrivate, @CreatorId);
       SELECT LAST_INSERT_ID();
       ";
       int id = _db.ExecuteScalar<int>(sql, vaultData);

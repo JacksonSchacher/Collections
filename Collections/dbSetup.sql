@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS vaults(
   id int NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'vault Id',
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
   updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
-  creatorId VARCHAR(255) COMMENT 'Creator Id',
+  creatorId VARCHAR(255) NOT NULL COMMENT 'Creator Id',
   name varchar(255) NOT NULL COMMENT 'vault Name',
   description TEXT COMMENT 'vault Description',
   isPrivate TINYINT DEFAULT 0 COMMENT 'is vault private?',
@@ -39,8 +39,9 @@ CREATE TABLE IF NOT EXISTS vaults(
 
 SELECT 
       v.*,
-      p.*
+      a.*
       FROM vaults v
-      JOIN accounts p ON p.id = v.creatorId
-      WHERE v.id = 5;
+      JOIN accounts a on a.id = v.creatorId
+      WHERE v.id = 39;
 
+SELECT * FROM vaults;
