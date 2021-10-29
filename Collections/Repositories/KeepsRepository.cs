@@ -18,20 +18,39 @@ namespace Collections.Repositories
 
     internal List<Keep> Get()
     {
-      string sql = "SELECT * FROM keeps;";
-      return _db.Query<Keep>(sql).ToList();
+      string sql = @"
+      SELECT 
+      k.*,
+      p.* 
+      FROM keeps k
+      JOIN accounts p ON p.id = k.creatorId;
+      ";
+      return _db.Query<Keep, Profile, Keep>(sql, (k, p) => {
+        k.Creator = p;
+        return k;
+      }).ToList();
     }
 
     internal Keep Get(int keepId)
     {
-      string sql = "SELECT * FROM keeps WHERE id == @keepId;";
-      return _db.QueryFirstOrDefault<Keep>(sql, new {keepId});
+      string sql = @"
+      SELECT 
+      k.*,
+      p.* 
+      FROM keeps k
+      JOIN accounts p ON p.id = k.creatorId 
+      WHERE k.id = @keepId;
+      ";
+      return _db.Query<Keep, Profile, Keep>(sql, (k, p) => {
+        k.Creator = p;
+        return k;
+      }, new {keepId}).FirstOrDefault();
     }
 
     internal Keep Create(Keep keepData)
     {
       string sql = @"
-      INSERT INTO keeps(creatorId, name, description, img, tags)
+      INSERT INTO keeps(creatorId, name, description, img)
       VALUES(@creatorId, @Name, @Description, @Img);
       SELECT LAST_INSERT_ID();
       ";
@@ -45,10 +64,9 @@ namespace Collections.Repositories
       string sql = @"
       UPDATE keeps
       SET
-      name = @Name
-      description = @Description
+      name = @Name,
+      description = @Description,
       img = @Img
-      tags = @Tags
       WHERE id = @Id LIMIT 1;
       ";
       var rowsAffected = _db.Execute(sql, keepData);
@@ -61,7 +79,7 @@ namespace Collections.Repositories
 
     internal void Remove(int keepId)
     {
-      string sql = "DELETE FROM keeps WHERE id == @keepId LIMIT 1;";
+      string sql = "DELETE FROM keeps WHERE id = @keepId LIMIT 1;";
       var rowsAffected = _db.Execute(sql, new {keepId});
       if (rowsAffected == 0)
       {

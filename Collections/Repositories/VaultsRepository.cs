@@ -23,8 +23,20 @@ namespace Collections.Repositories
 
     internal Vault Get(int vaultId)
     {
-      string sql = "SELECT * FROM vaults WHERE id == @vaultId;";
+      string sql = "SELECT * FROM vaults WHERE id = @vaultId;";
       return _db.QueryFirstOrDefault<Vault>(sql, new {vaultId});
+    }
+
+    internal Vault Create(Vault vaultData)
+    {
+      string sql = @"
+      INSERT INTO vaults(name, description, isPrivate)
+      VALUES(@Name, @Description, @IsPrivate);
+      SELECT LAST_INSERT_ID();
+      ";
+      int id = _db.ExecuteScalar<int>(sql, vaultData);
+      vaultData.Id = id;
+      return vaultData;
     }
   }
 }

@@ -28,5 +28,10 @@ namespace Collections.Services
       }
       return foundVault;
     }
+
+    internal Vault Create(Vault vaultData)
+    {
+      return _vr.Create(vaultData);
+    }
   }
 }

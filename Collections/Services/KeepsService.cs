@@ -36,7 +36,8 @@ namespace Collections.Services
 
     internal Keep Edit(Keep keepData, string userId)
     {
-      if (keepData.CreatorId != userId)
+      Keep foundKeep = Get(keepData.Id);
+      if (foundKeep.CreatorId != userId)
       {
         throw new Exception("Not Allowed To Edit");
       }

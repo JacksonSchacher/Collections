@@ -59,13 +59,15 @@ namespace Collections.Controllers
         return BadRequest(e.Message);
       }
     }
-    [HttpPut]
     [Authorize]
-    public async Task<ActionResult<Keep>> Edit([FromBody] Keep keepData)
+    [HttpPut("{keepId}")]
+    public async Task<ActionResult<Keep>> Edit([FromBody] Keep keepData, int keepId)
     {
       try
       {
         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        keepData.CreatorId = userInfo.Id;
+        keepData.Id = keepId;
         Keep editedKeep = _ks.Edit(keepData, userInfo.Id);
         return editedKeep;
       }
@@ -74,8 +76,8 @@ namespace Collections.Controllers
         return BadRequest(e.Message);
       }
     }
-    [HttpDelete]
     [Authorize]
+    [HttpDelete("{keepId}")]
     public async Task<ActionResult<Keep>> Remove(int keepId)
     {
       try
