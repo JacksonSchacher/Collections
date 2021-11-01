@@ -17,7 +17,7 @@ namespace Collections.Repositories
 
     internal Profile Get(string profileId)
     {
-      string sql = "SELECT * FROM accounts p WHERE p.id = @profileId LIMIT 1;";
+      string sql = "SELECT * FROM accounts p WHERE p.id = @profileId;";
       return _db.Query(sql, new {profileId}).FirstOrDefault();
     }
 
