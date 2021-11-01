@@ -18,10 +18,10 @@ namespace Collections.Repositories
     {
       string sql = @"
       INSERT INTO vaultKeeps(creatorId, vaultId, keepId)
-      VALUES(@creatorId, @vaultId, @KeepId);
+      VALUES(@CreatorId, @VaultId, @KeepId);
       SELECT LAST_INSERT_ID();
       ";
-      int id = _db.ExecuteScalar<int>(sql, new {vaultKeepData});
+      int id = _db.ExecuteScalar<int>(sql, vaultKeepData);
       vaultKeepData.Id = id;
       return vaultKeepData;
     }
