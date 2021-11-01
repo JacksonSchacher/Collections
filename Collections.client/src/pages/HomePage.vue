@@ -1,11 +1,14 @@
 <template>
-  <div class="container-fluid">
-    <div class="row">
-      <div v-for="k in keeps" :key="k.id" class="col-3">
-        <Keep :keep='k' />
+  <div class="container-fluid py-1 px-4">
+    <div class="masonry-columns text-center">
+      <div v-for="k in keeps" :key="k.id" class="">
+        <Keep :keep="k" />
       </div>
     </div>
-  </div>
+    <div class="row">
+      <h1>Loading...</h1>
+    </div>
+  </div> 
 </template>
 
 <script>
@@ -14,7 +17,9 @@ import { AppState } from '../AppState'
 import { watchEffect } from '@vue/runtime-core'
 import { keepsService} from '../services/KeepsService'
 import Pop from '../utils/Pop'
+import Modal from '../components/Modal.vue'
 export default {
+  components: { Modal },
   name: 'Home',
   setup() {
     watchEffect(() => {
@@ -32,21 +37,42 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.home{
-  display: grid;
-  height: 80vh;
-  place-content: center;
-  text-align: center;
-  user-select: none;
-  .home-card{
-    width: 50vw;
-    > img{
-      height: 200px;
-      max-width: 200px;
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
-    }
-  }
+.masonry-columns {
+  columns: 4 200px;
+  column-gap: 1.5rem;
+  flex-flow: column;
+  div {
+    display: inline-block;
+    max-width: 30rem;
+    border-radius: 15px;
+    margin: .5rem 0;
+  } 
 }
+
+// .masonry-columns {
+//   columns: 6 200px;
+//   column-gap: 1rem;
+//   div {
+//     width: 150px;
+//     background: #EC985A;
+//     color: white;
+//     margin: 0 1rem 1rem 0;
+//     display: inline-block;
+//     width: 100%;
+//     text-align: center;
+//     font-family: system-ui;
+//     font-weight: 900;
+//     font-size: 2rem;
+//   } 
+//   @for $i from 1 through 36 { 
+//     div:nth-child(#{$i}) {
+//       $h: (random(400) + 100) + px;
+//       height: $h;
+//       line-height: $h;
+//     }
+//   }
+// }
+
+
+
 </style>

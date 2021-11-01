@@ -1,33 +1,32 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-    <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-      <div class="d-flex flex-column align-items-center">
-        <img
-          alt="logo"
-          src="../assets/img/cw-logo.png"
-          height="45"
-        />
-      </div>
-    </router-link>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarText"
-      aria-controls="navbarText"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon" />
-    </button>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary px-3">
+    <div class="">
+      <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
+        <div class="d-flex flex-column align-items-center">
+          <h3>Collections</h3>
+        </div>
+      </router-link>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarText"
+        aria-controls="navbarText"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon" />
+      </button>
+    </div>
     <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto">
-        <li>
-          <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
-            About
-          </router-link>
-        </li>
-      </ul>
+    <div class="">
+      <form @submit.prevent="search()">
+        <label for="searh">Search Collections</label>
+        <input type="search" id="search" placeholder="Search.." autofocus required />
+        <button class="search-btn" type="submit"><i class="mdi mdi-magnify"></i></button>
+      </form>
+    </div>
+    <div>
       <span class="navbar-text">
         <button
           class="btn selectable text-success lighten-30 text-uppercase my-2 my-lg-0"
@@ -71,6 +70,7 @@
           </div>
         </div>
       </span>
+    </div>
     </div>
   </nav>
 </template>
@@ -117,5 +117,52 @@ a:hover {
   border-bottom: 2px solid var(--bs-success);
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+}
+.search-btn {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 3rem;
+  font-weight: 600;
+  background-color: #333333;
+  color: #f2f2f2;
+  border-radius: 0 15px 15px 0;
+}
+form {
+  position: relative;
+  width: 20rem;
+  border-radius: 15px;
+}
+input, button {
+  border: 0;
+  font-size: 1.25rem;
+}
+input[type="search"] {
+  outline: 0;
+  width: 100%;
+  padding: 0 1rem;
+  border-radius: 15px;
+  appearance: none;
+  transition: all .3s ease-in-out;
+  transition-property: width, border-radius;
+  z-index: 1;
+  position: relative;
+}
+input:not(:placeholder-shown) {
+  border-radius: 15px 0 0 15px;
+  width: calc(100% - 3rem);
+}
+input:not(:placeholder-shown) + button {
+    display: block;
+}
+label {
+  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
 }
 </style>
