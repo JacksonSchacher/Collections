@@ -1,14 +1,14 @@
 <template>
   <div class="row">
     <div class="col-6">
-      <img class="modal-img" :src="k.img" alt="">
+      <img class="modal-img" :src="keep.img" alt="">
     </div>
     <div class="col-6">
-      <h4>{{k.name}}</h4>
-      <p>{{k.description}}</p>
+      <h4>{{keep.name}}</h4>
+      <p>{{keep.description}}</p>
       <br>
-      <h5>{{k.creator.name}}</h5>
-      <cite>{{k.updatedAt}}</cite>
+      <h5>{{keep.creator.name}}</h5>
+      <cite>{{keep.updatedAt}}</cite>
     </div>
   </div>
 </template>
@@ -17,7 +17,7 @@
 import { Keep } from '../models/Keep'
 export default {
  props: {
-    k: {
+    keep: {
       type: Keep,
       default: () => { return new Keep()}
     }

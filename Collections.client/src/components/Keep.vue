@@ -11,18 +11,7 @@
   <!-- Keep Modal -->
 <Modal id="keep-details-modal">
   <template #modal-body>
-    <div class="row">
-    <div class="col-6">
-      <img class="modal-img" :src="keep.img" alt="">
-    </div>
-    <div class="col-6">
-      <h4>{{keep.name}}</h4>
-      <p>{{keep.description}}</p>
-      <br>
-      <h5>{{keep.creator.name}}</h5>
-      <cite>{{keep.updatedAt}}</cite>
-    </div>
-  </div>
+    <KeepDetails :keep="keep" />
   </template>
 </Modal>
 
@@ -30,6 +19,7 @@
 
 <script>
 import { Keep } from '../models/Keep'
+import { keepsService } from '../services/KeepsService'
 import Pop from '../utils/Pop'
 export default {
   props: {
@@ -40,7 +30,13 @@ export default {
   },
   setup() {
     return {
-
+      setKeepDetails(keep) {
+        try {
+          keepsService.setCurrentKeep(keep)
+        } catch (error) {
+          Pop.toast(error.Message, 'error')
+        }
+      }
     }
   }
 }
@@ -51,6 +47,8 @@ export default {
   text-align: initial;
 }
 .modal-img {
+  width: 100%;
+  height: 50vh;
   object-fit: cover;
   object-position: center;
 }
@@ -60,10 +58,6 @@ img {
 .card {
   border-radius: 15px;
   filter: drop-shadow(1px 1px 15px #8d8d8d);
-}
-focused-keep {
-  transition: all 1s ease-in-out;
-  transform: scale(3);
 }
 </style>
 
