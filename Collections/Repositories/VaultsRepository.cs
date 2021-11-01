@@ -69,8 +69,17 @@ namespace Collections.Repositories
 
     internal List<VaultKeep> GetVKs(int vaultId)
     {
-      string sql = @"SELECT * FROM vaultKeeps vk WHERE vk.vaultId = @vaultId;";
-      return _db.Query<VaultKeep>(sql, new {vaultId}).ToList();
+      string sql = @"
+      SELECT 
+      vk.*,
+      p.* 
+      FROM vaultKeeps vk 
+      JOIN accounts p ON p.id = vk.creatorId
+      WHERE vk.vaultId = @vaultId;";
+      return _db.Query<VaultKeep, Profile, VaultKeep>(sql, (vk, p) => {
+        vk.Creator = p;
+        return vk;
+      },new {vaultId}).ToList();
     }
 
     internal void Remove(int vaultId)
