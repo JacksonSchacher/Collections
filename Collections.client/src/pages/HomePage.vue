@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid py-1 px-4">
-    <div class="masonry-columns text-center">
+    <div v-if="keeps" class="masonry-columns text-center">
       <div v-for="k in keeps" :key="k.id" class="">
         <Keep :keep="k" />
       </div>
@@ -14,7 +14,7 @@
 <script>
 import { computed } from '@vue/reactivity'
 import { AppState } from '../AppState'
-import { watchEffect } from '@vue/runtime-core'
+import { onMounted, watchEffect } from '@vue/runtime-core'
 import { keepsService} from '../services/KeepsService'
 import Pop from '../utils/Pop'
 import Modal from '../components/Modal.vue'

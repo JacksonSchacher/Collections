@@ -1,6 +1,6 @@
 <template>
   <div class="card keep-card text-white selectable" data-bs-toggle="modal" data-bs-target="#keep-details-modal">
-  <img :src="keep.img" class="card-img" alt="...">
+  <img :src="keep.img" loading="lazy" class="card-img" alt="...">
   <div class="card-img-overlay">
     <h5 class="card-title">{{keep.name}}</h5>
     <p class="card-text">{{keep.description}}</p>
