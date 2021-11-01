@@ -36,6 +36,17 @@ CREATE TABLE IF NOT EXISTS vaults(
   isPrivate TINYINT DEFAULT 0 COMMENT 'is vault private?',
   FOREIGN KEY(creatorId) REFERENCES accounts(id) ON DELETE CASCADE
 ) default charset utf8 COMMENT '';
+CREATE TABLE IF NOT EXISTS vaultKeeps(
+  id int NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'vaultKeep Id',
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
+  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
+  creatorId VARCHAR(255) NOT NULL COMMENT 'Creator Id',
+  vaultId INT NOT NULL,
+  keepId INT NOT NULL,
+  FOREIGN KEY(creatorId) REFERENCES accounts(id) ON DELETE CASCADE,
+  FOREIGN KEY(vaultId) REFERENCES vaults(id),
+  FOREIGN KEY(keepId) REFERENCES keeps(id) 
+) default charset utf8 COMMENT '';
 
 SELECT 
       v.*,
