@@ -1,4 +1,3 @@
-const { Keep } = require("../models/Keep")
 
 class KeepsService {
   async getKeeps() {

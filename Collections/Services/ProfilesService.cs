@@ -14,7 +14,7 @@ namespace Collections.Services
       _pr = pr;
     }
 
-    internal Profile Get(string profileId)
+    public Profile Get(string profileId)
     {
       Profile foundProfile = _pr.Get(profileId);
       if (foundProfile == null)

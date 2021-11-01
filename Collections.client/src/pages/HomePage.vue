@@ -15,16 +15,17 @@ import { watchEffect } from '@vue/runtime-core'
 import { keepsService} from '../services/KeepsService'
 import Pop from '../utils/Pop'
 export default {
+  name: 'Home',
   setup() {
     watchEffect(() => {
       try {
         keepsService.getKeeps()
       } catch (error) {
-        Pop.toast(erro.message, 'error')
+        Pop.toast(error.message, 'error')
       }
     })
     return {
-      keeps = computed(() => AppState.keeps)
+      keeps: computed(() => AppState.keeps)
     }
   }
 }

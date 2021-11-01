@@ -22,7 +22,8 @@ namespace Collections.Controllers
     {
       try
       {
-        return Ok(_ps.Get(profileId));
+        Profile foundProfile = _ps.Get(profileId);
+        return Ok(foundProfile);
       }
       catch (System.Exception e)
       {

@@ -17,8 +17,8 @@ namespace Collections.Repositories
 
     internal Profile Get(string profileId)
     {
-      string sql = "SELECT * FROM accounts p WHERE p.id = @profileId;";
-      return _db.Query(sql, new {profileId}).FirstOrDefault();
+      string sql = "SELECT * FROM accounts WHERE id = @profileId;";
+      return _db.QueryFirstOrDefault<Profile>(sql, new {profileId});
     }
 
     internal List<Keep> GetKeeps(string profileId)
