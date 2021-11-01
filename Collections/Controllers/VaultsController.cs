@@ -44,6 +44,18 @@ namespace Collections.Controllers
         return BadRequest(e.Message);
       }
     }
+    [HttpGet("{vaultId}/keeps")]
+    public ActionResult<VaultKeep> GetVKs(int vaultId)
+    {
+      try
+      {
+        return Ok(_vs.GetVKs(vaultId));
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
 
     [Authorize]
     [HttpPost]

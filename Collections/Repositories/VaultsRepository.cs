@@ -67,6 +67,12 @@ namespace Collections.Repositories
       return vaultData;
     }
 
+    internal object GetVKs(int vaultId)
+    {
+      string sql = @"SELECT * FROM vaultKeeps vk WHERE vk.vaultId = @vaultId;";
+      return _db.Query<VaultKeep>(sql, new {vaultId}).ToList();
+    }
+
     internal void Remove(int vaultId)
     {
       string sql = "DELETE FROM vaults WHERE id = @vaultId LIMIT 1;";

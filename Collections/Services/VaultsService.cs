@@ -53,5 +53,10 @@ namespace Collections.Services
       }
       _vr.Remove(vaultId);
     }
+
+    internal object GetVKs(int vaultId)
+    {
+      return _vr.GetVKs(vaultId);
+    }
   }
 }
