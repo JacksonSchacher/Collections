@@ -17,14 +17,19 @@ namespace Collections.Services
     {
       return _vkr.Create(vaultKeepData);
     }
-
-    internal void Remove(int vaultkeepId, string id)
+    internal VaultKeep Get(int vaultkeepId)
     {
       VaultKeep foundVK = _vkr.Get(vaultkeepId);
-      if (foundVK == null)
+            if (foundVK == null)
       {
         throw new Exception("Vault Keep Does Not Exist");
       }
+      return foundVK;
+    }
+    internal void Remove(int vaultkeepId, string id)
+    {
+      VaultKeep foundVK = Get(vaultkeepId);
+
       if (foundVK.CreatorId != id)
       {
         throw new Exception("Unathorized To Delete");

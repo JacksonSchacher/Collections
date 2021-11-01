@@ -45,7 +45,7 @@ namespace Collections.Controllers
       }
     }
     [HttpGet("{vaultId}/keeps")]
-    public ActionResult<VaultKeep> GetVKs(int vaultId)
+    public ActionResult<List<VaultKeep>> GetVKs(int vaultId)
     {
       try
       {

@@ -1,5 +1,6 @@
 using System;
 using System.Data;
+using System.Linq;
 using Collections.Models;
 using Dapper;
 
@@ -31,10 +32,16 @@ namespace Collections.Repositories
       string sql = @"
       SELECT
       vk.*,
-      FROM vaultkeeps vk
-      WHERE vk.id = @vaultkeepId;
+      p.*
+      FROM vaultKeeps vk
+      JOIN accounts p ON p.id = vk.creatorId
+      WHERE vk.id = @vaultkeepId
+      LIMIT 1;
       ";
-      return _db.QueryFirstOrDefault<VaultKeep>(sql, new {vaultkeepId});
+      return _db.Query<VaultKeep, Profile, VaultKeep>(sql, (vk, p) => {
+        vk.Creator = p;
+        return vk;
+      }, new {vaultkeepId}).FirstOrDefault();
     }
 
     internal void Remove(int vaultkeepId)
