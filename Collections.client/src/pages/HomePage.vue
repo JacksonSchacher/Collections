@@ -1,17 +1,32 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <div class="home-card p-5 bg-white rounded elevation-3">
-      <img src="https://bcw.blob.core.windows.net/public/img/8600856373152463" alt="CodeWorks Logo" class="rounded-circle">
-      <h1 class="my-5 bg-dark text-white p-3 rounded text-center">
-        Vue 3 Starter
-      </h1>
+  <div class="container-fluid">
+    <div class="row">
+      <div v-for="k in keeps" :key="k.id" class="col-3">
+        <Keep :keep='k' />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { computed } from '@vue/reactivity'
+import { AppState } from '../AppState'
+import { watchEffect } from '@vue/runtime-core'
+import { keepsService} from '../services/KeepsService'
+import Pop from '../utils/Pop'
 export default {
-  name: 'Home'
+  setup() {
+    watchEffect(() => {
+      try {
+        keepsService.getKeeps()
+      } catch (error) {
+        Pop.toast(erro.message, 'error')
+      }
+    })
+    return {
+      keeps = computed(() => AppState.keeps)
+    }
+  }
 }
 </script>
 
