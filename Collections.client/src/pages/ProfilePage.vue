@@ -13,7 +13,7 @@
     <div class="row">
       <span><h3>Vaults<i class="mdi mdi-plus-box-multiple selectable" data-bs-toggle="modal" data-bs-target="#vault-modal"></i></h3></span>
       <div class="masonry-columns text-center">
-      <div v-for="v in vaults" :key="v.id" class="">
+      <div v-for="v in vaults" :key="v.id" class="vaults-div">
         <Vault :vault="v" />
       </div>
       </div>
@@ -77,10 +77,16 @@ export default {
   column-gap: 1.5rem;
   flex-flow: column;
   div {
-    display: inline-block;
     max-width: 30rem;
     border-radius: 15px;
     margin: .5rem 0;
   } 
+}
+.vaults-div {
+  height: 200px;
+  width: 200px;
+  background-color: #cccccc;
+  display: inline-flex;
+  flex-flow: column;
 }
 </style>

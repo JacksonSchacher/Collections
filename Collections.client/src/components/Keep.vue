@@ -1,7 +1,7 @@
 <template>
   <div :id="'keep-' + keep.id" class="card keep-card text-white" @click="keepDetails(keep)">
   <div v-if="!isOpen">
-    <img :src="keep.img" loading="lazy" class="card-img selectable" alt="..." >
+    <img :src="keep.img" loading="lazy" class="card-img" alt="..." >
     <div class="card-img-overlay">
       <h5 class="card-title">{{keep.name}}</h5>
       <p class="card-text">{{keep.description}}</p>
@@ -33,6 +33,8 @@ import { keepsService } from '../services/KeepsService'
 import { profilesService } from '../services/ProfilesService'
 import { logger } from '../utils/Logger'
 import Pop from '../utils/Pop'
+import { watchEffect } from '@vue/runtime-core'
+import { AppState } from '../AppState'
 export default {
   props: {
     keep: {
@@ -43,6 +45,20 @@ export default {
   setup() {
     let isOpen = ref(false)
     let scrollPos = ref(0)
+    watchEffect (() => {
+      window.onscroll = function (e) {
+        var vertical_position = 0;
+        if (scrollY) {
+          vertical_position = scrollY
+        } else if (document.documentElement.clientHeight) {
+          vertical_position = document.documentElement.scrollTop
+        } else if (document.body) {
+          vertical_position = document.body.scrollTop
+        }
+        var keepCard = document.getElementById(`keep-${AppState.currentKeep.id}`)
+        keepCard.style.top = (vertical_position) + 'px';
+      }
+    })
     return {
       isOpen,
       scrollPos,

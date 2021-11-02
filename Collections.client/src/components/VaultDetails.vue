@@ -4,7 +4,7 @@
     <div class="col-6">
       <img class="modal-img" :src="keep.img" alt="">
     </div>
-    <div class="d-grid col-5 details bg-light">
+    <div class="col-5 details bg-light">
       <div class="row mt-3 text-primary">
         <div class="col-4">
         <p>{{keep.views}} <i class="mdi mdi-eye"></i></p>
@@ -16,33 +16,25 @@
         <p>{{keep.keeps}} <i class="mdi mdi-bookmark-check"></i></p>
         </div>
       </div>
-      <hr>
-      <div class="row pt-2 pb-5">
+      <div class="row">
       <h4>{{keep.name}}</h4>
       <p>{{keep.description}}</p>
       </div>
-      <hr>
-      <div class="d-inline-flex row align-items-end pb-3 justify-content-center">
+      <div class="row">
         <div class="col-4">
-          <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-              Add To Collection
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-              <li v-for="v in myVaults" :key="v.id" @click="addKeepToVault(v.id, keep.id)" class="selectable">{{v.name}}</li>
-            </ul> 
-          </div>
-        </div>
-        <div class="col-4 text-danger">
-          <i class="mdi mdi-delete f-24"></i>
-        </div>
-        <div class="col-4">
-          <img class="creator-pic" :src="keep.creator.picture" alt="">
-          <h6>{{keep.creator.name}}</h6>
+
+        <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+    Add To Collection
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <li v-for="v in myVaults" :key="v.id" @click="addKeepToVault(v.id, keep.id)" class="selectable">{{v.name}}</li>
+  </ul>
+</div>
         </div>
       </div>
+    </div>
   </div>
-</div>
 </div>
 </template>
 
@@ -58,8 +50,8 @@ export default {
       await vaultsService.getMyVaults(AppState.account.id)
     })
     return {
-      keep: computed(() => AppState.currentKeep),
-      myVaults: computed(() => AppState.myVaults),
+      vault: computed(() => AppState.currentKeep),
+      myKeeps: computed(() => AppState.myVaults),
       async addKeepToVault(vaultId, keepId) {
         try {
           await vaultsService.addKeepToVault(vaultId, keepId)
@@ -95,9 +87,5 @@ export default {
 }
 .btn{
   z-index: 205;
-}
-.creator-pic {
-  width: 3rem;
-  border-radius: 15px;
 }
 </style>
