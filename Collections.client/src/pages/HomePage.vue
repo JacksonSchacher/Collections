@@ -46,7 +46,6 @@ export default {
     max-width: 30rem;
     border-radius: 15px;
     margin: .5rem 0;
-    z-index: 20;
   } 
 }
 
