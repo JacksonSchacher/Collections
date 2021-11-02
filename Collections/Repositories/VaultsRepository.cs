@@ -40,8 +40,8 @@ namespace Collections.Repositories
     internal Vault Create(Vault vaultData)
     {
       string sql = @"
-      INSERT INTO vaults(name, description, isPrivate, creatorId)
-      VALUES(@Name, @Description, @IsPrivate, @CreatorId);
+      INSERT INTO vaults(name, description, isPrivate, creatorId, img)
+      VALUES(@Name, @Description, @IsPrivate, @CreatorId, @Img);
       SELECT LAST_INSERT_ID();
       ";
       int id = _db.ExecuteScalar<int>(sql, vaultData);
@@ -56,7 +56,8 @@ namespace Collections.Repositories
       SET
       name = @Name,
       description = @Description,
-      isPrivate = @IsPrivate
+      isPrivate = @IsPrivate,
+      img = @Img
       WHERE id = @Id LIMIT 1;
       ";
       var rowsAffected = _db.Execute(sql, vaultData);

@@ -56,3 +56,6 @@ SELECT
       WHERE v.id = 39;
 
 SELECT * FROM vaults;
+
+ALTER TABLE vaults
+ADD img TEXT COMMENT 'vault image';

@@ -5,7 +5,7 @@
         <Keep :keep="k" />
       </div>
     </div>
-    <div class="row">
+    <div v-else class="row">
       <h1>Loading...</h1>
     </div>
   </div> 
@@ -46,6 +46,7 @@ export default {
     max-width: 30rem;
     border-radius: 15px;
     margin: .5rem 0;
+    z-index: 20;
   } 
 }
 
