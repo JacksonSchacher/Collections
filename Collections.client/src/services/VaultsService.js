@@ -30,5 +30,10 @@ class VaultsService {
     const res = await api.get(`api/vaults/${vaultId}`)
     AppState.currentVault = new Vault(res.data)
   }
+  async getVaultKeeps(vaultId) {
+    AppState.vaultKeeps = []
+    const res = await api.get(`api/vaults/${vaultId}/keeps`)
+    AppState.vaultKeeps = res.data.map(vk => new VaultKeep(vk))
+  }
 }
 export const vaultsService = new VaultsService();

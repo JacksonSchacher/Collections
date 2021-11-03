@@ -1,9 +1,9 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary px-3">
-    <div class="">
+    <div class="justify-content-between">
       <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
         <div class="d-flex flex-column align-items-center">
-          <h3>Collections</h3>
+          <h3>Groots Scoots</h3>
         </div>
       </router-link>
       <button

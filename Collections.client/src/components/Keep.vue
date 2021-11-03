@@ -1,40 +1,38 @@
 <template>
-  <div :id="'keep-' + keep.id" class="card keep-card text-white" @click="keepDetails(keep)">
-  <div v-if="!isOpen">
+  <div class="card keep-card text-white" data-bs-toggle="modal" data-bs-target="#keep-details-modal" @click="setCurrentKeep(keep.id)">
+  <div>
     <img :src="keep.img" loading="lazy" class="card-img" alt="..." >
     <div class="card-img-overlay">
       <h5 class="card-title">{{keep.name}}</h5>
-      <p class="card-text">{{keep.description}}</p>
       <!-- <p class="card-text">{{keep.createdAt}}</p> -->
     </div>
     <div v-if="keep.creator" class="align-self-end">
       <img class="creator-picture" :src="keep.creator.picture" :alt="keep.creator.name" @click="goToProfile(keep.creator.id)">
     </div>
   </div>
-    <div v-else class="text-dark details">
-      <KeepDetails />
-    </div>
 </div>
 
   <!-- Keep Modal -->
-<!-- <Modal id="keep-details-modal">
+<Modal id="keep-details-modal">
   <template #modal-body>
-    <KeepDetails :keep="keep" />
+    <KeepDetails />
   </template>
-</Modal> -->
+  <template #modal-footer>
+    <i v-if="keep.creator.id == account.id" class="mdi mdi-delete f-18" @click="deleteKeep(keep.id)"></i>
+  </template>
+</Modal>
 
 </template>
 
 <script>
-import { ref } from '@vue/reactivity'
+import { computed } from '@vue/reactivity'
 import { Keep } from '../models/Keep'
 import { router } from '../router'
 import { keepsService } from '../services/KeepsService'
 import { profilesService } from '../services/ProfilesService'
-import { logger } from '../utils/Logger'
 import Pop from '../utils/Pop'
-import { watchEffect } from '@vue/runtime-core'
 import { AppState } from '../AppState'
+import { Modal } from 'bootstrap'
 export default {
   props: {
     keep: {
@@ -43,44 +41,14 @@ export default {
     }
   },
   setup() {
-    let isOpen = ref(false)
-    let scrollPos = ref(0)
-    watchEffect (() => {
-      window.onscroll = function (e) {
-        var vertical_position = 0;
-        if (scrollY) {
-          vertical_position = scrollY
-        } else if (document.documentElement.clientHeight) {
-          vertical_position = document.documentElement.scrollTop
-        } else if (document.body) {
-          vertical_position = document.body.scrollTop
-        }
-        var keepCard = document.getElementById(`keep-${AppState.currentKeep.id}`)
-        keepCard.style.top = (vertical_position) + 'px';
-      }
-    })
     return {
-      isOpen,
-      scrollPos,
-      async keepDetails(keep) {
+      account: computed(() => AppState.account),
+      currentKeep: computed(() => AppState.currentKeep),
+      async setCurrentKeep(keepId) {
         try {
-          this.getScrollPos()
-          isOpen.value = !isOpen.value
-          logger.log('Open Status: ', isOpen)
-          var keepCard = document.getElementById(`keep-${keep.id}`)
-          keepCard.classList.toggle('focused-card')
-          await keepsService.setCurrentKeep(keep)
+          await keepsService.setCurrentKeep(keepId)
         } catch (error) {
-          Pop.toast(error.message, 'error')
-        }
-      },
-      getScrollPos(){
-        try {
-          scrollPos.value = document.documentElement.scrollTop || document.body.scrollTop
-          logger.log("Scroll Position", scrollPos)
-          return
-        } catch (error) {
-          Pop.toast(error.message, 'error')
+          Pop.toast(error.Message, 'error')
         }
       },
       async goToProfile(creatorId) {
@@ -90,6 +58,18 @@ export default {
           router.push({ name: 'Profile', params: { profileId: creatorId}})
         } catch (error) {
           Pop.toast(error.Message, 'error')
+        }
+      },
+      async deleteKeep(keepId) {
+        try {
+          if (await Pop.confirm("Delete Post")) {
+            const modal = Modal.getInstance(document.getElementById('keep-details-modal'))
+            modal.hide()
+            await keepsService.deleteKeep(keepId)
+            Pop.toast("Post Deleted")
+          }
+        } catch (error) {
+          
         }
       }
     }
@@ -107,6 +87,11 @@ export default {
   bottom: 10px;
   right: 10px;
 }
+.card-title {
+  background-color: #8d8d8d7c;
+  border-radius: 15px;
+  padding: .5rem;
+}
 .card-img-overlay {
   text-align: initial;
 }
@@ -122,26 +107,6 @@ img {
 .card {
   border-radius: 15px;
   filter: drop-shadow(1px 1px 15px #8d8d8d);
-  transition: all .5s cubic-bezier(0.445, 0.05, 0.55, 0.95);
-}
-.keep-card {
-  transform: rotateY(0deg);
-}
-.focused-card {
-  margin: auto !important;
-  justify-content: center;
-  align-items: center;
-  background-color: #97979767;
-  transform: rotateY(180deg) translateZ(10px);
-  height: 100vh;
-  width: 100vw;
-  max-width: 100vw !important;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: v-bind(scrollPos) + 'px';
-  z-index: 100;
-  backdrop-filter: blur(2px);
 }
 .details {
   transform: rotateY(180deg) translateZ(2px);

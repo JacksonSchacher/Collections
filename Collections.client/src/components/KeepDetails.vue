@@ -1,10 +1,10 @@
 <template>
-<div @click.stop class="container">
-  <div class="d-flex row keep-deets">
+<div v-if="keep.id" @click.stop class="container">
+  <div class="row justify-content-around keep-deets">
     <div class="col-md-6">
       <img class="modal-img" :src="keep.img" alt="">
     </div>
-    <div class="d-grid col-md-5 details bg-light">
+    <div class="col-md-5 details bg-light">
       <div class="row mt-3 text-primary">
         <div class="col-4">
         <p>{{keep.views}} <i class="mdi mdi-eye"></i></p>
@@ -22,8 +22,8 @@
       <p>{{keep.description}}</p>
       </div>
       <hr>
-      <div class="d-inline-flex row align-items-end pb-3 justify-content-center">
-        <div class="col-4">
+      <div class="row pb-3">
+        <div class="col-6">
           <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
               Add To Collection
@@ -33,10 +33,7 @@
             </ul> 
           </div>
         </div>
-        <div class="col-4 text-danger">
-          <i class="mdi mdi-delete f-24"></i>
-        </div>
-        <div class="col-4">
+        <div v-if="keep.creator" class="col-6">
           <img class="creator-pic" :src="keep.creator.picture" alt="">
           <h6>{{keep.creator.name}}</h6>
         </div>
@@ -59,6 +56,7 @@ export default {
     })
     return {
       keep: computed(() => AppState.currentKeep),
+      account: computed(() => AppState.account),
       myVaults: computed(() => AppState.myVaults),
       async addKeepToVault(vaultId, keepId) {
         try {
@@ -87,17 +85,19 @@ export default {
   height: 50vh;
   filter: drop-shadow(1px 1px 10px #4e4e4e);
 }
-.keep-deets {
-  margin-top: 25vh;
-}
 .container {
   z-index: 200;
 }
 .btn{
   z-index: 205;
 }
+.modal-dialog {
+  max-width: 80vw;
+}
 .creator-pic {
   width: 3rem;
+  height: 3rem;
+  object-fit: cover;
   border-radius: 15px;
 }
 </style>
