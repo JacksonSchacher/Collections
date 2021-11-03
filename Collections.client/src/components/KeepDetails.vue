@@ -1,10 +1,10 @@
 <template>
 <div @click.stop class="container">
   <div class="d-flex row keep-deets">
-    <div class="col-6">
+    <div class="col-md-6">
       <img class="modal-img" :src="keep.img" alt="">
     </div>
-    <div class="d-grid col-5 details bg-light">
+    <div class="d-grid col-md-5 details bg-light">
       <div class="row mt-3 text-primary">
         <div class="col-4">
         <p>{{keep.views}} <i class="mdi mdi-eye"></i></p>

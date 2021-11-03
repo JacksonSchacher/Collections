@@ -4,8 +4,10 @@
       <div class="col-3">
         <img class="profile-pic" :src="profile.picture" alt="">
       </div>
-      <div class="d-flex flex-column profile-name col-5 bg-dark align-items-start justify-content-center">
-        <h2>{{profile.name}}</h2>
+      <div class="d-flex flex-column profile-name col-6 bg-dark align-items-start justify-content-center">
+        <h2>{{profile.name}}
+          <i data-bs-toggle="modal" data-bs-target="#account-modal" v-show="profile.id == account.id" class="mdi mdi-pencil f-18 selectable"></i>
+        </h2>
         <h6>Collections: {{vaults.length}}  </h6>
         <h6>Posts: {{keeps.length}}  </h6>
       </div>
@@ -39,6 +41,12 @@
     <VaultForm />
   </template>
 </Modal>
+
+<Modal id="account-modal"> 
+  <template #modal-body>
+    <AccountForm />
+  </template>
+</Modal>
 </template>
 
 <script>
@@ -58,6 +66,7 @@ export default {
     })
     return {
       profile: computed(() => AppState.currentProfile),
+      account: computed(() => AppState.account),
       vaults: computed(() => AppState.profileVaults),
       keeps: computed(() => AppState.profileKeeps)
     }
