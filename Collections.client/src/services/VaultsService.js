@@ -17,5 +17,18 @@ class VaultsService {
     const res = await api.post('api/vaultkeeps', vaultKeepData)
     AppState.vaultKeeps = [new VaultKeep(res.data), ...AppState.vaultKeeps]
   }
+  async editVault(vaultData, vaultId) {
+    const res = await api.put(`api/vaults/${vaultId}`, vaultData)
+    foundVault = AppState.profileVaults.findIndex(v => v.id == vaultId)
+    AppState.profileVaults.splice(foundVault, 1, new Vault(res.data))
+  }
+  async createVault(vaultData) {
+    const res = await api.post('api/vaults', vaultData)
+    AppState.myVaults.push(new Vault(res.data))
+  }
+  async getVaultById(vaultId) {
+    const res = await api.get(`api/vaults/${vaultId}`)
+    AppState.currentVault = new Vault(res.data)
+  }
 }
 export const vaultsService = new VaultsService();

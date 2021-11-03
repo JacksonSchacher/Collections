@@ -15,7 +15,7 @@
     <div class="row">
       <span><h3>Vaults<i class="mdi mdi-plus-box-multiple selectable" data-bs-toggle="modal" data-bs-target="#vault-modal"></i></h3></span>
       <div class="masonry-columns text-center">
-      <div v-for="v in vaults" :key="v.id" class="vaults-div">
+      <div v-for="v in vaults" :key="v.id" class="selectable vaults-div" @click="goToVaultDetails(v.id)">
         <Vault :vault="v" />
       </div>
       </div>
@@ -52,9 +52,11 @@
 <script>
 import { computed } from '@vue/reactivity'
 import { AppState } from '../AppState'
-import { onMounted } from '@vue/runtime-core'
+import { onMounted, watchEffect } from '@vue/runtime-core'
 import { useRoute } from 'vue-router'
 import { profilesService } from '../services/ProfilesService'
+import { router } from '../router'
+import Pop from '../utils/Pop'
 export default {
   setup() {
     const route = useRoute()
@@ -68,7 +70,14 @@ export default {
       profile: computed(() => AppState.currentProfile),
       account: computed(() => AppState.account),
       vaults: computed(() => AppState.profileVaults),
-      keeps: computed(() => AppState.profileKeeps)
+      keeps: computed(() => AppState.profileKeeps),
+      goToVaultDetails(vaultId) {
+        try {
+          router.push({name: 'VaultDetails', params: {vaultId: vaultId}})
+        } catch (error) {
+          Pop.toast(error.message, 'error')
+        }
+      }
     }
   }
 }
@@ -77,6 +86,10 @@ export default {
 <style lang="scss" scoped>
 .profile-pic {
   border-radius: 15px;
+  height: 10rem;
+  width: 10rem;
+  object-fit: cover;
+  object-position: center;
 }
 .profile-name {
   border-radius: 15px;

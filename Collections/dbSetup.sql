@@ -59,3 +59,9 @@ SELECT * FROM vaults;
 
 ALTER TABLE vaults
 ADD img TEXT COMMENT 'vault image';
+
+SET FOREIGN_KEY_CHECKS = 0; 
+TRUNCATE table vaults; 
+TRUNCATE TABLE keeps;
+TRUNCATE TABLE vaultKeeps;
+SET FOREIGN_KEY_CHECKS = 1;

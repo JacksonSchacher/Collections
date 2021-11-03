@@ -100,6 +100,7 @@ export default {
 <style lang="scss" scoped>
 .creator-picture {
   width: 50px;
+  height: 50px;
   object-fit: cover;
   object-position: center;
   position: absolute;

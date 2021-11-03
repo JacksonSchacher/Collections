@@ -44,12 +44,14 @@
             id="authDropdown"
           >
             <img
-              :src="user.picture"
+              :src="account.picture"
               alt="user photo"
               height="40"
+              width="40"
+              style="object-fit:cover"
               class="rounded"
             />
-            <span class="mx-3 text-success lighten-30">{{ user.name }}</span>
+            <span class="mx-3 text-success lighten-30">{{ account.name }}</span>
           </div>
           <div
             class="dropdown-menu p-0 list-group w-100"
