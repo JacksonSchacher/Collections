@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Collections.Models;
 using Collections.Services;
@@ -9,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Collections.Controllers
 {
-    [ApiController]
+  [ApiController]
     [Route("[controller]")]
     public class AccountController : ControllerBase
     {
@@ -30,6 +29,22 @@ namespace Collections.Controllers
                 return Ok(_accountService.GetOrCreateProfile(userInfo));
             }
             catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [Authorize]
+        [HttpPut]
+
+        public async Task<ActionResult<Account>> Edit([FromBody] Account accountData)
+        {
+            try
+            {
+                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                return Ok(_accountService.EditProfile(accountData, userInfo));
+            }
+            catch (System.Exception e)
             {
                 return BadRequest(e.Message);
             }

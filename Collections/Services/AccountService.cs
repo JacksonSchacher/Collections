@@ -1,3 +1,4 @@
+using System;
 using Collections.Models;
 using Collections.Repositories;
 
@@ -36,5 +37,14 @@ namespace Collections.Services
             original.Picture = editData.Picture.Length > 0 ? editData.Picture : original.Picture;
             return _repo.Edit(original);
         }
+
+    internal Account EditProfile(Account accountData, Account userInfo)
+    {
+      if (accountData.Id != userInfo.Id)
+      {
+          throw new Exception("Unauthorized");
+      }
+      return _repo.Edit(accountData);
     }
+  }
 }

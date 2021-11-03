@@ -5,14 +5,14 @@
         <h3>Edit Account</h3>
     <div class="form-group mt-4">
       <label for="name">Name</label>
-      <input type="text" class="form-control" id="name" aria-describedby="accountName" placeholder="Account Name..">
+      <input v-model="editable.name" type="text" class="form-control" id="name" aria-describedby="accountName" placeholder="Account Name..">
     </div>
       </div>
     </div>
     <div class="d-flex justify-content-between form-group align-items-end">    
       <div class="form-group">
       <label for="img">Image URL</label>
-      <input type="url" class="form-control" id="img" aria-describedby="imgURL" placeholder="Image Url..">
+      <input v-model="editable.picture" type="url" class="form-control" id="img" aria-describedby="imgURL" placeholder="Image Url..">
     </div>
     <div>
 
@@ -24,10 +24,29 @@
 </template>
 
 <script>
+import { ref } from '@vue/reactivity'
+import { watchEffect } from '@vue/runtime-core'
+import { AppState } from '../AppState'
+import { accountService } from '../services/AccountService'
+import { Modal } from 'bootstrap'
 export default {
   setup() {
+    const editable = ref({})
+    watchEffect(() => {
+      editable.value = {...AppState.account}
+    })
     return {
-      
+      editable,
+      async editAccount() {
+        try {
+          accountService.editAccount(editable.value)
+          const modal = Modal.getOrCreateInstance(document.getElementById('account-modal'))
+          modal.hide()
+          Pop.toast('Account Edited')
+        } catch (error) {
+          Pop.toast(error.message, 'error')
+        }
+      }
     }
   }
 }
