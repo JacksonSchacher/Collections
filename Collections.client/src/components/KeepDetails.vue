@@ -34,7 +34,7 @@
           </div>
         </div>
         <div v-if="keep.creator" class="col-6">
-          <img class="creator-pic" :src="keep.creator.picture" alt="">
+          <img class="creator-pic selectable" :src="keep.creator.picture" alt="" @click="goToProfile(keep.creator.id)">
           <h6>{{keep.creator.name}}</h6>
         </div>
       </div>
@@ -49,6 +49,9 @@ import { AppState } from '../AppState'
 import { onMounted, onRenderTriggered } from '@vue/runtime-core'
 import { vaultsService } from '../services/VaultsService'
 import Pop from '../utils/Pop'
+import { profilesService } from '../services/ProfilesService'
+import { router } from '../router'
+import { Modal } from 'bootstrap'
 export default {
   setup() {
     return {
@@ -59,6 +62,16 @@ export default {
         try {
           await vaultsService.addKeepToVault(vaultId, keepId)
           Pop.toast('Added to Collection')
+        } catch (error) {
+          Pop.toast(error.message, 'error')
+        }
+      },
+      async goToProfile(profileId) {
+        try {
+          await profilesService.setCurrentProfile(profileId)
+          const modal = Modal.getInstance(document.getElementById('keep-details-modal'))
+          modal.hide()
+          router.push({name: 'Profile', params: {profileId: profileId}})
         } catch (error) {
           Pop.toast(error.message, 'error')
         }

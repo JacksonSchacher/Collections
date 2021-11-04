@@ -21,10 +21,11 @@ namespace Collections.Controllers
     }
 
     [HttpGet]
-    public ActionResult<List<Vault>> Get()
+    async public Task<ActionResult<List<Vault>>> Get()
     {
       try
       {
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
         return Ok(_vs.Get());
       }
       catch (System.Exception e)
@@ -33,23 +34,27 @@ namespace Collections.Controllers
       }
     }
     [HttpGet("{vaultId}")]
-    public ActionResult<Vault> Get(int vaultId)
+    async public Task<ActionResult<Vault>> Get(int vaultId)
     {
       try
       {
-        return Ok(_vs.Get(vaultId));
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        return Ok(_vs.GetOne(vaultId, userInfo?.Id));
       }
       catch (System.Exception e)
       {
         return BadRequest(e.Message);
       }
     }
+    
+    
     [HttpGet("{vaultId}/keeps")]
-    public ActionResult<List<VaultKeep>> GetVKs(int vaultId)
+    async public Task<ActionResult<List<VaultKeep>>> GetVKs(int vaultId)
     {
       try
       {
-        return Ok(_vs.GetVKs(vaultId));
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        return Ok(_vs.GetVKs(vaultId, userInfo?.Id));
       }
       catch (System.Exception e)
       {
@@ -66,6 +71,7 @@ namespace Collections.Controllers
         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
         vaultData.CreatorId = userInfo.Id;
         Vault createdVault = _vs.Create(vaultData);
+        createdVault.Creator = userInfo;
         return createdVault;
       }
       catch (System.Exception e)

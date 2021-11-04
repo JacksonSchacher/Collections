@@ -74,14 +74,17 @@ namespace Collections.Repositories
       SELECT 
       vk.*,
       p.*,
-      k.* 
+      k.*,
+      v.* 
       FROM vaultKeeps vk 
       JOIN accounts p ON p.id = vk.creatorId
       JOIN keeps k ON k.id = vk.keepId
+      JOIN vaults v ON v.id = vk.vaultId
       WHERE vk.vaultId = @vaultId;";
-      return _db.Query<VaultKeep, Profile, Keep, VaultKeep>(sql, (vk, p, k) => {
+      return _db.Query<VaultKeep, Profile, Keep, Vault, VaultKeep>(sql, (vk, p, k, v) => {
         vk.Creator = p;
         vk.Keep = k;
+        vk.Vault = v;
         return vk;
       },new {vaultId}).ToList();
     }

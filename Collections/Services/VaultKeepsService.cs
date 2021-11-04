@@ -25,6 +25,10 @@ namespace Collections.Services
       {
         throw new Exception("Vault Keep Does Not Exist");
       }
+      if (foundVK.Vault.IsPrivate)
+      {
+        throw new Exception("Vault is Private");
+      }
       return foundVK;
     }
     internal void Remove(int vaultkeepId, string id)

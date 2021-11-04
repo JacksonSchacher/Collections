@@ -7,6 +7,7 @@
 <h5>Posts: {{vaultKeeps.length}}</h5>
 <div class="masonry-columns text-center">
   <div v-for="k in vaultKeeps" :key="k.id">
+    <i class="mdi mdi-delete selectable" @click="deleteVaultKeep(k.id, vault.id)"></i>
     <Keep :keep="k.keep" />
   </div>
 </div>
@@ -19,6 +20,7 @@ import { useRoute } from 'vue-router'
 import { AppState } from '../AppState'
 import { vaultsService } from '../services/VaultsService'
 import { router } from '../router'
+import Pop from '../utils/Pop'
 export default {
   setup() {
     const route = useRoute();
@@ -31,13 +33,23 @@ export default {
       vault: computed(() => AppState.currentVault),
       async deleteVault(vaultId) {
         try {
-          if (await Pop.confirm("Delete Vault?")) {
+          if (await Pop.confirm("Delete Collection?")) {
             await vaultsService.deleteVault(vaultId)
-            Pop.toast("Vault Deleted")
+            Pop.toast("Collection Deleted")
             router.push({name: 'Profile', params: {profileId: vault.creator.id}})
           }
         } catch (error) {
-          
+          Pop.toast(error.Message, 'error')
+        }
+      },
+      async deleteVaultKeep(vaultKeepId, vaultId) {
+        try {
+          if (await Pop.confirm("Remove Post from Collection?")) {
+            await vaultsService.deleteVaultKeep(vaultKeepId, vaultId)
+            Pop.toast("Post Removed")
+          }
+        } catch (error) {
+          Pop.toast(error.Message, 'error')
         }
       }
     }

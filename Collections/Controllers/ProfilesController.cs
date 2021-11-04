@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using CodeWorks.Auth0Provider;
 using Collections.Models;
 using Collections.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -43,11 +45,12 @@ namespace Collections.Controllers
       }
     }
     [HttpGet("{profileId}/vaults")]
-    public ActionResult<List<Vault>> GetVaults(string profileId)
+    async public Task<ActionResult<List<Vault>>> GetVaults(string profileId)
     {
       try
       {
-        return Ok(_ps.GetVaults(profileId));
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        return Ok(_ps.GetVaults(profileId, userInfo?.Id));
       }
       catch (System.Exception e)
       {

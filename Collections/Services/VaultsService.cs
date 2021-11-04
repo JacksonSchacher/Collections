@@ -19,12 +19,15 @@ namespace Collections.Services
       return _vr.Get();
     }
 
-    internal Vault Get(int vaultId)
+    internal Vault GetOne(int vaultId, string userId)
     {
       Vault foundVault = _vr.Get(vaultId);
       if (foundVault == null)
       {
         throw new Exception("Vault Not Found");
+      }
+      if (foundVault.IsPrivate && foundVault.CreatorId != userId) {
+        throw new Exception("Vault is Private");
       }
       return foundVault;
     }
@@ -36,7 +39,7 @@ namespace Collections.Services
 
     internal Vault Edit(Vault vaultData, string userId)
     {
-      Vault foundVault = Get(vaultData.Id);
+      Vault foundVault = GetOne(vaultData.Id, userId);
       if (foundVault.CreatorId != userId)
       {
         throw new Exception("Not Allowed To Edit");
@@ -46,7 +49,7 @@ namespace Collections.Services
 
     internal void Remove(int vaultId, string userId)
     {
-      Vault foundVault = Get(vaultId);
+      Vault foundVault = GetOne(vaultId, userId);
       if (foundVault.CreatorId != userId)
       {
         throw new Exception("Not Authorized to Remove");
@@ -54,9 +57,22 @@ namespace Collections.Services
       _vr.Remove(vaultId);
     }
 
-    internal List<VaultKeep> GetVKs(int vaultId)
+    internal List<VaultKeep> GetVKs(int vaultId, string userId)
     {
-      return _vr.GetVKs(vaultId);
+      List<VaultKeep> foundVKs = _vr.GetVKs(vaultId);
+      List<VaultKeep> nonPrivateVks = foundVKs.FindAll(vk => vk.Vault.IsPrivate != true);
+      if (foundVKs.Count == 0) 
+      {
+        return foundVKs;
+      }
+      if (userId == foundVKs[0].CreatorId) {
+        return foundVKs;
+      }
+      if (nonPrivateVks.Count == 0)
+      {
+        throw new Exception("Unauthorized");
+      }
+      return nonPrivateVks;
     }
   }
 }

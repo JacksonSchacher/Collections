@@ -52,6 +52,7 @@ namespace Collections.Controllers
         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
         keepData.CreatorId = userInfo.Id;
         Keep createdKeep = _ks.Create(keepData);
+        createdKeep.Creator = userInfo;
         return createdKeep;
       }
       catch (System.Exception e)

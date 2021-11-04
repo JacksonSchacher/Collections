@@ -8,5 +8,6 @@ namespace Collections.Models
     public int KeepId { get; set; }
     public Profile Creator {get; set;}
     public Keep Keep { get; set; }
+    public Vault Vault { get; set; }
   }
 }

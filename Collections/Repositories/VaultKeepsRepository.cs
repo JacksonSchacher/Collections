@@ -35,21 +35,27 @@ namespace Collections.Repositories
       string sql = @"
       SELECT
       vk.*,
-      p.*
+      p.*,
+      k.*,
+      v.*
       FROM vaultKeeps vk
       JOIN accounts p ON p.id = vk.creatorId
+      JOIN keeps k ON k.id = vk.keepId
+      JOIN vaults v ON v.id = vk.vaultId
       WHERE vk.id = @vaultkeepId
       LIMIT 1;
       ";
-      return _db.Query<VaultKeep, Profile, VaultKeep>(sql, (vk, p) => {
+      return _db.Query<VaultKeep, Profile, Keep, Vault, VaultKeep>(sql, (vk, p, k, v) => {
         vk.Creator = p;
+        vk.Keep = k;
+        vk.Vault = v;
         return vk;
       }, new {vaultkeepId}).FirstOrDefault();
     }
 
     internal void Remove(int vaultkeepId)
     {
-      string sql = "DELETE FROM vaultKeeps vk WHERE vk.id = @vaultkeepId;";
+      string sql = "DELETE FROM vaultKeeps WHERE vaultKeeps.id = @vaultkeepId;";
       int rowsAffected = _db.Execute(sql, new {vaultkeepId});
       if (rowsAffected == 0)
       {

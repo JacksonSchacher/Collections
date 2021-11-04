@@ -13,15 +13,15 @@
       </div>
     </div>
     <div class="row">
-      <span><h3>Vaults<i class="mdi mdi-plus-box-multiple selectable" data-bs-toggle="modal" data-bs-target="#vault-modal"></i></h3></span>
+      <span><h3>Vaults<i v-if="profile.id == account.id" class="mdi mdi-plus-box-multiple selectable" data-bs-toggle="modal" data-bs-target="#vault-modal"></i></h3></span>
       <div class="masonry-columns text-center">
-      <div v-for="v in vaults" :key="v.id" class="selectable vaults-div" @click="goToVaultDetails(v.id)">
+      <div v-for="v in vaults" :key="v.id" class="selectable vaults-div" @click="goToVaultDetails(v)">
         <Vault :vault="v" />
       </div>
       </div>
     </div>
     <div class="row">
-      <span><h3>Keeps<i class="mdi mdi-plus-box selectable" data-bs-toggle="modal" data-bs-target="#keep-modal"></i></h3></span>
+      <span><h3>Keeps<i v-if="profile.id == account.id" class="mdi mdi-plus-box selectable" data-bs-toggle="modal" data-bs-target="#keep-modal"></i></h3></span>
       <div class="masonry-columns text-center">
       <div v-for="k in keeps" :key="k.id" class="d-inline-flex">
         <Keep :keep="k" />
@@ -71,9 +71,13 @@ export default {
       account: computed(() => AppState.account),
       vaults: computed(() => AppState.profileVaults),
       keeps: computed(() => AppState.profileKeeps),
-      goToVaultDetails(vaultId) {
+      goToVaultDetails(vault) {
         try {
-          router.push({name: 'VaultDetails', params: {vaultId: vaultId}})
+          if (vault.isPrivate || AppState.account.id != AppState.profile.id) {
+            Pop.toast("This Vault is Private")
+            return
+          }
+          router.push({name: 'VaultDetails', params: {vaultId: vault.id}})
         } catch (error) {
           Pop.toast(error.message, 'error')
         }

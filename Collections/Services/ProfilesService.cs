@@ -29,9 +29,14 @@ namespace Collections.Services
       return _pr.GetKeeps(profileId);
     }
 
-    internal List<Vault> GetVaults(string profileId)
+    internal List<Vault> GetVaults(string profileId, string userId)
     {
-      return _pr.GetVaults(profileId);
+      List<Vault> foundVaults = _pr.GetVaults(profileId);
+      List<Vault> nonPrivateVaults = foundVaults.FindAll(v => v.IsPrivate != true);
+      if (profileId != userId) {
+        return nonPrivateVaults;
+      }
+      return foundVaults;
     }
   }
 }
