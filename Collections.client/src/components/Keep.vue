@@ -17,7 +17,7 @@
   <template #modal-body>
     <KeepDetails />
   </template>
-  <template #modal-footer>
+  <template v-if="keep.creator" #modal-footer>
     <i v-if="keep.creator.id == account.id" class="mdi mdi-delete f-18" @click="deleteKeep(keep.id)"></i>
   </template>
 </Modal>

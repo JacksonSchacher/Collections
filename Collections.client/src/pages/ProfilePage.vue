@@ -23,7 +23,7 @@
     <div class="row">
       <span><h3>Keeps<i class="mdi mdi-plus-box selectable" data-bs-toggle="modal" data-bs-target="#keep-modal"></i></h3></span>
       <div class="masonry-columns text-center">
-      <div v-for="k in keeps" :key="k.id" class="">
+      <div v-for="k in keeps" :key="k.id" class="d-inline-flex">
         <Keep :keep="k" />
       </div>
       </div>

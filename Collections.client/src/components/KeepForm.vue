@@ -36,6 +36,8 @@ import { Keep } from '../models/Keep'
 import Pop from '../utils/Pop'
 import { keepsService } from '../services/KeepsService'
 import { Modal } from 'bootstrap'
+import { profilesService } from '../services/ProfilesService'
+import { useRoute } from 'vue-router'
 export default {
   props: {
     keep: {
@@ -44,6 +46,7 @@ export default {
     }
   },
   setup(props) {
+    const route = useRoute()
     const editable = ref({})
     watchEffect(() => {
       editable.value = {...props.keep}
@@ -58,6 +61,7 @@ export default {
             return
           }
           await keepsService.createKeep(editable.value)
+          await profilesService.getKeeps(route.params.profileId)
           const modal = Modal.getInstance(document.getElementById('keep-modal'))
           modal.hide()
           editable.value = {}
