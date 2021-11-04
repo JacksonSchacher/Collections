@@ -74,5 +74,6 @@ namespace Collections.Services
       }
       return nonPrivateVks;
     }
+
   }
 }

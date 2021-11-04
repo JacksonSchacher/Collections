@@ -13,4 +13,8 @@ namespace Collections.Models
     public Profile Creator { get; set; }
     // public Array Tags { get; set; }
   }
+  public class KeepModelView : Keep
+  {
+    public int vaultKeepId { get; set; }
+  }
 }

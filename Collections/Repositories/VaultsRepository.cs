@@ -89,6 +89,7 @@ namespace Collections.Repositories
       },new {vaultId}).ToList();
     }
 
+
     internal void Remove(int vaultId)
     {
       string sql = "DELETE FROM vaults WHERE id = @vaultId LIMIT 1;";
