@@ -67,3 +67,15 @@ TRUNCATE table vaults;
 TRUNCATE TABLE keeps;
 TRUNCATE TABLE vaultKeeps;
 SET FOREIGN_KEY_CHECKS = 1;
+
+ALTER Table keeps 
+DROP COLUMN views;
+
+ALTER Table keeps
+ADD COLUMN views INT NOT NULL DEFAULT 0 COMMENT 'views';
+
+ALTER Table keeps 
+DROP COLUMN keeps;
+
+ALTER Table keeps
+ADD COLUMN keeps INT NOT NULL DEFAULT 0 COMMENT 'keeps';

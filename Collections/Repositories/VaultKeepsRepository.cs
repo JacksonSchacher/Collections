@@ -21,6 +21,9 @@ namespace Collections.Repositories
       INSERT INTO vaultKeeps(creatorId, vaultId, keepId)
       VALUES(@CreatorId, @VaultId, @KeepId);
       SELECT LAST_INSERT_ID();
+      UPDATE keeps
+      SET keeps = keeps + 1
+      WHERE keeps.id = @KeepId;
       ";
       int id = _db.ExecuteScalar<int>(sql, vaultKeepData);
       vaultKeepData.Id = id;

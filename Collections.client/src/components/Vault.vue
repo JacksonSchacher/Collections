@@ -2,8 +2,11 @@
   <div class="card keep-card text-white">
   <img :src="vault.img" loading="lazy" class="card-img selectable" alt="...">
   <div class="card-img-overlay">
+    <div class="row card-info">
+
     <h5 class="card-title">{{vault.name}}</h5>
-    <p class="card-text">{{vault.description}}</p>
+    <i v-if="vault.isPrivate" class="mdi mdi-lock"></i>
+    </div>
     <!-- <p class="card-text">{{keep.createdAt}}</p> -->
   </div>
 </div>
@@ -31,5 +34,10 @@ img {
 }
 .card-img-overlay {
   text-align: initial;
+}
+.card-info {
+  background-color: #8d8d8d86;
+  border-radius: 15px;
+  padding: .25rem;
 }
 </style>

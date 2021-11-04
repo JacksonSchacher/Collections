@@ -46,14 +46,11 @@
 <script>
 import { computed } from '@vue/reactivity'
 import { AppState } from '../AppState'
-import { onMounted } from '@vue/runtime-core'
+import { onMounted, onRenderTriggered } from '@vue/runtime-core'
 import { vaultsService } from '../services/VaultsService'
 import Pop from '../utils/Pop'
 export default {
   setup() {
-    onMounted(async () => {
-      await vaultsService.getMyVaults(AppState.account.id)
-    })
     return {
       keep: computed(() => AppState.currentKeep),
       account: computed(() => AppState.account),

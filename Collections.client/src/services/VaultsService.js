@@ -35,5 +35,9 @@ class VaultsService {
     const res = await api.get(`api/vaults/${vaultId}/keeps`)
     AppState.vaultKeeps = res.data.map(vk => new VaultKeep(vk))
   }
+  async deleteVault(vaultId) {
+    const res = await api.delete(`api/vaults/${vaultId}`)
+    AppState.currentVault = {}
+  }
 }
 export const vaultsService = new VaultsService();

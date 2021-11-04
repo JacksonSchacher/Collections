@@ -1,6 +1,6 @@
 <template>
   <div class="container pt-5">
-    <div class="row">
+    <div class="row pb-3">
       <div class="col-3">
         <img class="profile-pic" :src="profile.picture" alt="">
       </div>

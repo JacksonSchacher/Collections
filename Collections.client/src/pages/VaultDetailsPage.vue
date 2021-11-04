@@ -1,6 +1,7 @@
 <template>
 <div class="container pt-3">
 
+<div class=" col-12 text-end f-18"><i class="mdi mdi-delete selectable" @click="deleteVault(vault.id)"></i></div>
 <h1>{{vault.name}}</h1>
 <p>{{vault.description}}</p>
 <h5>Posts: {{vaultKeeps.length}}</h5>
@@ -17,6 +18,7 @@ import { computed, onMounted } from '@vue/runtime-core'
 import { useRoute } from 'vue-router'
 import { AppState } from '../AppState'
 import { vaultsService } from '../services/VaultsService'
+import { router } from '../router'
 export default {
   setup() {
     const route = useRoute();
@@ -26,7 +28,18 @@ export default {
     })
     return {
       vaultKeeps: computed(() => AppState.vaultKeeps.filter(v => v.vaultId == route.params.vaultId)),
-      vault: computed(() => AppState.currentVault)
+      vault: computed(() => AppState.currentVault),
+      async deleteVault(vaultId) {
+        try {
+          if (await Pop.confirm("Delete Vault?")) {
+            await vaultsService.deleteVault(vaultId)
+            Pop.toast("Vault Deleted")
+            router.push({name: 'Profile', params: {profileId: vault.creator.id}})
+          }
+        } catch (error) {
+          
+        }
+      }
     }
   }
 }
