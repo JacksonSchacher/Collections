@@ -170,4 +170,7 @@ label {
   width: 1px;
   overflow: hidden;
 }
+.navbar-expand-lg .navbar-collapse {
+  justify-content: space-between;
+}
 </style>

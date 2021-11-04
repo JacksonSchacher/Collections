@@ -1,13 +1,13 @@
 <template>
 <div class="container pt-3">
 
-<div class=" col-12 text-end f-18"><i class="mdi mdi-delete selectable" @click="deleteVault(vault.id)"></i></div>
+<div v-if="vault.creatorId == account.id" class=" col-12 text-end f-18"><i class="mdi mdi-delete selectable" @click="deleteVault(vault.id)"></i></div>
 <h1>{{vault.name}}</h1>
 <p>{{vault.description}}</p>
 <h5>Posts: {{vaultKeeps.length}}</h5>
 <div class="masonry-columns text-center">
   <div v-for="k in vaultKeeps" :key="k.id">
-    <i class="mdi mdi-delete selectable" @click="deleteVaultKeep(k.id, vault.id)"></i>
+    <i v-if="vault.creatorId == account.id" class="mdi mdi-delete selectable f-16 text-light remove-keep" @click="deleteVaultKeep(k.id, vault.id)"></i>
     <Keep :keep="k.keep" />
   </div>
 </div>
@@ -31,6 +31,7 @@ export default {
     return {
       vaultKeeps: computed(() => AppState.vaultKeeps.filter(v => v.vaultId == route.params.vaultId)),
       vault: computed(() => AppState.currentVault),
+      account: computed(() => AppState.account),
       async deleteVault(vaultId) {
         try {
           if (await Pop.confirm("Delete Collection?")) {
@@ -68,5 +69,11 @@ export default {
     border-radius: 15px;
     margin: .5rem 0;
   } 
+}
+.remove-keep {
+  position: relative;
+  bottom: -3.25rem;
+  right: -7rem;
+  z-index: 200;
 }
 </style>
