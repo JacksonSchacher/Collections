@@ -22,7 +22,7 @@
       <p>{{keep.description}}</p>
       </div>
       <hr>
-      <div class="row pb-3">
+      <div class="row mt-auto the-mick-special align-items-end">
         <div class="col-6">
           <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -109,5 +109,9 @@ export default {
   height: 3rem;
   object-fit: cover;
   border-radius: 15px;
+}
+/* FIXME it works */
+.the-mick-special {
+  height: 30%;
 }
 </style>
