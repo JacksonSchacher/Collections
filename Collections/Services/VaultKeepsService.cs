@@ -32,6 +32,10 @@ namespace Collections.Services
       return createdVaultKeep;
       
     }
+    internal List<KeepModelView> GetVKM(int vaultKeepId)
+    {
+      return _vkr.GetVKM(vaultKeepId);
+    }
     internal VaultKeep Get(int vaultkeepId, string userId)
     {
       VaultKeep foundVK = _vkr.Get(vaultkeepId);

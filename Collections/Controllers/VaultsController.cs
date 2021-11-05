@@ -14,10 +14,12 @@ namespace Collections.Controllers
   public class VaultsController : ControllerBase
   {
     private readonly VaultsService _vs;
+    private readonly VaultKeepsService _vks;
 
-    public VaultsController(VaultsService vs)
+    public VaultsController(VaultsService vs, VaultKeepsService vks)
     {
       _vs = vs;
+      _vks = vks;
     }
 
     [HttpGet]
@@ -49,6 +51,19 @@ namespace Collections.Controllers
     
     
     [HttpGet("{vaultId}/keeps")]
+    public ActionResult<List<KeepModelView>> GetVKM(int vaultId)
+    {
+      try
+      {
+           return Ok(_vks.GetVKM(vaultId));
+      }
+      catch (System.Exception error)
+      {
+          return BadRequest(error.Message);
+      }
+    }
+
+    [HttpGet("{vaultId}/vaultKeeps")]
     async public Task<ActionResult<List<VaultKeep>>> GetVKs(int vaultId)
     {
       try

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Collections.Models;
@@ -52,6 +53,23 @@ namespace Collections.Repositories
         vk.Vault = v;
         return vk;
       }, new {vaultkeepId}).FirstOrDefault();
+    }
+    internal List<KeepModelView> GetVKM(int vaultKeepId)
+    {
+      string sql = @"
+      SELECT 
+      p.*,
+      k.*,
+      vk.id AS vaultKeepId
+      FROM vaultKeeps vk
+      JOIN keeps k on vk.keepId = k.id
+      JOIN accounts p on k.creatorId = p.id
+      WHERE vk.vaultId = @vaultKeepId;
+      ";
+      return _db.Query<Profile, KeepModelView, KeepModelView>(sql, (p, vk) => {
+        vk.Creator = p;
+        return vk;
+      }, new { vaultKeepId }).ToList();
     }
 
     internal void Remove(int vaultkeepId)
