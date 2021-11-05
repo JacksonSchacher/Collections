@@ -32,7 +32,7 @@ namespace Collections.Services
       return createdVaultKeep;
       
     }
-    internal VaultKeep Get(int vaultkeepId)
+    internal VaultKeep Get(int vaultkeepId, string userId)
     {
       VaultKeep foundVK = _vkr.Get(vaultkeepId);
       List<Keep> foundKeeps = _kr.Get();
@@ -41,18 +41,21 @@ namespace Collections.Services
       {
         throw new Exception("Vault Keep Does Not Exist");
       }
-      if (foundVK.Vault.IsPrivate)
+      if (foundVK.CreatorId != userId)
       {
-        throw new Exception("Vault is Private");
+        if (foundVK.Vault.IsPrivate)
+        {
+          throw new Exception("Vault is Private");
+        }
       }
       foundVK.Keep = foundKeep;
       return foundVK;
     }
-    internal void Remove(int vaultkeepId, string id)
+    internal void Remove(int vaultkeepId, string userId)
     {
-      VaultKeep foundVK = Get(vaultkeepId);
+      VaultKeep foundVK = Get(vaultkeepId, userId);
 
-      if (foundVK.CreatorId != id)
+      if (foundVK.CreatorId != userId)
       {
         throw new Exception("Unathorized To Delete");
       }

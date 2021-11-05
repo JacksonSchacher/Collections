@@ -1,5 +1,5 @@
 <template>
-<div class="container pt-3">
+<div v-if="account" class="container pt-3">
 
 <div v-if="vault.creatorId == account.id" class=" col-12 text-end f-18"><i class="mdi mdi-delete selectable" @click="deleteVault(vault.id)"></i></div>
 <h1>{{vault.name}}</h1>
@@ -26,7 +26,11 @@ export default {
     const route = useRoute();
     onMounted(async() => {
       await vaultsService.getVaultById(route.params.vaultId)
-      await vaultsService.getVaultKeeps(route.params.vaultId)
+      try {
+        await vaultsService.getVaultKeeps(route.params.vaultId)
+      } catch (error) {
+        router.push({name: 'Home'})
+      }
     })
     return {
       vaultKeeps: computed(() => AppState.vaultKeeps.filter(v => v.vaultId == route.params.vaultId)),
@@ -37,7 +41,7 @@ export default {
           if (await Pop.confirm("Delete Collection?")) {
             await vaultsService.deleteVault(vaultId)
             Pop.toast("Collection Deleted")
-            router.push({name: 'Profile', params: {profileId: vault.creator.id}})
+            router.push({name: 'Profile', params: {profileId: AppState.currentProfile.id}})
           }
         } catch (error) {
           Pop.toast(error.Message, 'error')

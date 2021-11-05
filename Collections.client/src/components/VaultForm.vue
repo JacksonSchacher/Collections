@@ -41,6 +41,8 @@ import { vaultsService } from '../services/VaultsService'
 import Pop from '../utils/Pop'
 import { Vault } from '../models/Vault'
 import { Modal } from 'bootstrap'
+import { profilesService } from '../services/ProfilesService'
+import { useRoute } from 'vue-router'
 export default {
   props: {
     vault: {
@@ -49,6 +51,7 @@ export default {
     }
   },
   setup(props) {
+    const route = useRoute()
     const editable = ref({})
     watchEffect(() => {
       editable.value = {...props.vault}
@@ -63,6 +66,7 @@ export default {
             return
           }
           await vaultsService.createVault(editable.value)
+          await profilesService.getVaults(route.params.profileId)
           const modal = Modal.getInstance(document.getElementById('vault-modal'))
           modal.hide()
           editable.value = {}

@@ -38,6 +38,7 @@ namespace Collections.Repositories
       p.*,
       k.*,
       v.*
+      vk.id AS vaultKeepId
       FROM vaultKeeps vk
       JOIN accounts p ON p.id = vk.creatorId
       JOIN keeps k ON k.id = vk.keepId
@@ -45,7 +46,7 @@ namespace Collections.Repositories
       WHERE vk.id = @vaultkeepId
       LIMIT 1;
       ";
-      return _db.Query<VaultKeep, Profile, Keep, Vault, VaultKeep>(sql, (vk, p, k, v) => {
+      return _db.Query<VaultKeep, Profile, KeepModelView, Vault, VaultKeep>(sql, (vk, p, k, v) => {
         vk.Creator = p;
         vk.Keep = k;
         vk.Vault = v;
