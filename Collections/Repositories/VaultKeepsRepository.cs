@@ -39,7 +39,6 @@ namespace Collections.Repositories
       p.*,
       k.*,
       v.*
-      vk.id AS vaultKeepId
       FROM vaultKeeps vk
       JOIN accounts p ON p.id = vk.creatorId
       JOIN keeps k ON k.id = vk.keepId

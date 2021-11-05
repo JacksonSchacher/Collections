@@ -18,8 +18,11 @@ CREATE TABLE IF NOT EXISTS keeps(
   views int COMMENT 'Keep Views',
   shares int COMMENT 'Keep Shares',
   keeps int COMMENT 'Keeps in Vault',
+  vaultKeepId int,
   FOREIGN KEY(creatorId) REFERENCES accounts(id) ON DELETE CASCADE
 ) default charset utf8 COMMENT '';
+
+DROP Table keeps;
 
 INSERT INTO keeps(name, description, img)
 VALUES("Test Keep Name", "Test Keep Description", "https://placehoder.com");

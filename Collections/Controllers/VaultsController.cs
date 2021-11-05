@@ -51,11 +51,12 @@ namespace Collections.Controllers
     
     
     [HttpGet("{vaultId}/keeps")]
-    public ActionResult<List<KeepModelView>> GetVKM(int vaultId)
+    async public Task<ActionResult<List<KeepModelView>>> GetVKM(int vaultId)
     {
       try
       {
-           return Ok(_vks.GetVKM(vaultId));
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+           return Ok(_vks.GetVKM(vaultId, userInfo?.Id));
       }
       catch (System.Exception error)
       {

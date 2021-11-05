@@ -32,8 +32,13 @@ namespace Collections.Services
       return createdVaultKeep;
       
     }
-    internal List<KeepModelView> GetVKM(int vaultKeepId)
+    internal List<KeepModelView> GetVKM(int vaultKeepId, string userId)
     {
+      Vault foundVault = _vr.Get(vaultKeepId);
+      if (userId != foundVault.CreatorId && foundVault.IsPrivate == true)
+      {
+        throw new Exception("Vault is Private");
+      }
       return _vkr.GetVKM(vaultKeepId);
     }
     internal VaultKeep Get(int vaultkeepId, string userId)
