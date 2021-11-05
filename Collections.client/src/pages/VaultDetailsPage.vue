@@ -25,12 +25,12 @@ export default {
   setup() {
     const route = useRoute();
     onMounted(async() => {
-      await vaultsService.getVaultById(route.params.vaultId)
       try {
-        await vaultsService.getVaultKeeps(route.params.vaultId)
+      await vaultsService.getVaultById(route.params.vaultId)
       } catch (error) {
         router.push({name: 'Home'})
       }
+        await vaultsService.getVaultKeeps(route.params.vaultId)
     })
     return {
       vaultKeeps: computed(() => AppState.vaultKeeps.filter(v => v.vaultId == route.params.vaultId)),

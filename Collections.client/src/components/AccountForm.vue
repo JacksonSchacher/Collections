@@ -1,11 +1,11 @@
 <template>
   <form @submit.prevent="editAccount()" class="keep-form">
     <div class="d-flex justify-content-between row">
-      <div class="col-3">
+      <div class="col-md-3">
         <h3>Edit Account</h3>
     <div class="form-group mt-4">
       <label for="name">Name</label>
-      <input v-model="editable.name" type="text" class="form-control" id="name" aria-describedby="accountName" placeholder="Account Name..">
+      <input v-model="editable.name" type="text" class="form-control" id="name" aria-describedby="accountName" placeholder="Account Name.." required>
     </div>
       </div>
     </div>

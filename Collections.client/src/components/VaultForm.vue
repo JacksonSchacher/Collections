@@ -1,11 +1,11 @@
 <template>
   <form @submit.prevent="createVault()" class="keep-form">
     <div class="d-flex justify-content-between row">
-      <div class="col-3">
+      <div class="col-md-3">
         <h3>Create Vault</h3>
     <div class="form-group mt-4">
       <label for="title">Title</label>
-      <input type="text" class="form-control" id="title" aria-describedby="vaultTitle" v-model="editable.name" placeholder="Vault Title..">
+      <input type="text" class="form-control" id="title" aria-describedby="vaultTitle" v-model="editable.name" placeholder="Vault Title.." required>
     </div>
     <div class="form-group">
       <label for="isPrivate" class="form-check-label">Make Private?</label>
@@ -13,7 +13,7 @@
        <small id="isPrivate" class="form-text f-10 text-muted">Private Collection Can Only Be Viewed By You</small>
      </div>
       </div>
-      <div class="col-8">
+      <div class="col-md-8">
 
     <div class="form-group text-center">
       <label for="description"></label>

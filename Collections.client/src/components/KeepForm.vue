@@ -1,14 +1,14 @@
 <template>
   <form @submit.prevent="submitKeep()" class="keep-form">
     <div class="d-flex justify-content-between row">
-      <div class="col-3">
+      <div class="col-md-3">
         <h3>Create Post</h3>
     <div class="form-group mt-4">
       <label for="title">Title</label>
       <input type="text" v-model="editable.name" class="form-control" id="title" aria-describedby="postTitle" placeholder="Post Title.." required>
     </div>
       </div>
-      <div class="col-8">
+      <div class="col-md-8">
 
     <div class="form-group text-center">
       <label for="description"></label>

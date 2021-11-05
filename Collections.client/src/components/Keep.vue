@@ -6,7 +6,7 @@
       <h5 class="card-title">{{keep.name}}</h5>
       <!-- <p class="card-text">{{keep.createdAt}}</p> -->
     </div>
-    <div v-if="keep.creator" class="align-self-end">
+    <div @click.stop v-if="keep.creator" class="align-self-end">
       <img class="creator-picture" :src="keep.creator.picture" :alt="keep.creator.name" @click="goToProfile(keep.creator.id)">
     </div>
   </div>
@@ -55,6 +55,8 @@ export default {
         try {
           console.log('Profile ID', creatorId)
           await profilesService.setCurrentProfile(creatorId)
+          const modal = Modal.getInstance(document.getElementById('keep-details-modal'))
+          modal.hide()
           router.push({ name: 'Profile', params: { profileId: creatorId}})
         } catch (error) {
           Pop.toast(error.Message, 'error')

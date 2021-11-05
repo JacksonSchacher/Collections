@@ -1,10 +1,10 @@
 <template>
   <div class="container pt-5">
     <div class="row pb-3">
-      <div class="col-3">
+      <div class="col-md-3">
         <img class="profile-pic" :src="profile.picture" alt="">
       </div>
-      <div class="d-flex flex-column profile-name col-6 bg-dark align-items-start justify-content-center">
+      <div class="d-flex flex-column profile-name col-md-6 bg-dark align-items-start justify-content-center">
         <h2>{{profile.name}}
           <i data-bs-toggle="modal" data-bs-target="#account-modal" v-show="profile.id == account.id" class="mdi mdi-pencil f-18 selectable"></i>
         </h2>
