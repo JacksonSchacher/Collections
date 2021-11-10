@@ -3,7 +3,7 @@
     <div class="justify-content-between">
       <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
         <div class="d-flex flex-column align-items-center">
-          <h3>Groots Scoots</h3>
+          <h3>Collections</h3>
         </div>
       </router-link>
       <button
